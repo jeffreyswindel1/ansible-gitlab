@@ -6,6 +6,10 @@ lint:
   stage: lint
   script:
     - pip install -r requirements.txt
-    - ansible-lint .
+    - ansible-lint . \
+      --exclude .devcontainer/docker-compose.yml \
+      --exclude .gitlab-ci.yml \
+      --exclude .markdownlint.yaml \
+      --exclude .pre-commit-config.yml
   tags:
     - docker
