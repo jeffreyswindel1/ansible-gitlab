@@ -15,20 +15,20 @@
 
 - name: Setup traefik container
   tags:
-    - config
-    - traefik
+  - config
+  - traefik
   block:
-    - name: Template traefik config file
-      ansible.builtin.template:
-        src: traefik.yaml.j2
-        dest: "{{ traefik_directory_result.path }}/traefik.yaml"
-        mode: "0644"
-        owner: "{{ compose_user }}"
-        group: "{{ compose_user }}"
-    - name: Template traefik dynamic certs file
-      ansible.builtin.template:
-        src: certs-traefik.yaml.j2
-        dest: "{{ traefik_directory_result.path }}/certs-traefik.yaml"
-        mode: "0644"
-        owner: "{{ compose_user }}"
-        group: "{{ compose_user }}"
+  - name: Template traefik config file
+    ansible.builtin.template:
+      src: traefik.yaml.j2
+      dest: "{{ traefik_directory_result.path }}/traefik.yaml"
+      mode: "0644"
+      owner: "{{ compose_user }}"
+      group: "{{ compose_user }}"
+  - name: Template traefik dynamic certs file
+    ansible.builtin.template:
+      src: certs-traefik.yaml.j2
+      dest: "{{ traefik_directory_result.path }}/certs-traefik.yaml"
+      mode: "0644"
+      owner: "{{ compose_user }}"
+      group: "{{ compose_user }}"

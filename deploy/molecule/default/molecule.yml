@@ -6,22 +6,22 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: gitlab
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2404}-ansible:${TAG:-latest}"
-    capabilites:
-      - SYS_ADMIN
-    cgroupns_mode: host
-    command: ${MOLECULE_DOCKER_COMMAND:-"/lib/systemd/systemd"}
-    override_command: false
-    ports:
-      - "80:80/tcp"
-      - "443:443/tcp"
-    privileged: true
-    pre_build_image: true
-    user: 0
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
-      - ${PWD}:/tmp/ansible-gitlab:ro
+- name: gitlab
+  image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2404}-ansible:${TAG:-latest}"
+  capabilites:
+  - SYS_ADMIN
+  cgroupns_mode: host
+  command: ${MOLECULE_DOCKER_COMMAND:-"/lib/systemd/systemd"}
+  override_command: false
+  ports:
+  - "80:80/tcp"
+  - "443:443/tcp"
+  privileged: true
+  pre_build_image: true
+  user: 0
+  volumes:
+  - /sys/fs/cgroup:/sys/fs/cgroup:rw
+  - ${PWD}:/tmp/ansible-gitlab:ro
 provisioner:
   name: ansible
   env:
@@ -31,16 +31,16 @@ provisioner:
     converge: "${MOLECULE_PLAYBOOK:-converge.yml}"
 scenario:
   test_sequence:
-    - dependency
-    - cleanup
-    - destroy
-    - syntax
-    - create
-    - prepare
-    - converge
-    # - idempotence
-    - verify
-    - cleanup
-    - destroy
+  - dependency
+  - cleanup
+  - destroy
+  - syntax
+  - create
+  - prepare
+  - converge
+  # - idempotence
+  - verify
+  - cleanup
+  - destroy
 verifier:
   name: ansible

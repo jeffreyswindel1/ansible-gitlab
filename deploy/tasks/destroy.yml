@@ -9,7 +9,7 @@
     project_name: "{{ compose_project_name }}"
     project_src: "{{ compose_directory }}"
     files:
-      - docker-compose.yml
+    - docker-compose.yml
     state: absent
   when: compose_directory_check.stat.exists
 
