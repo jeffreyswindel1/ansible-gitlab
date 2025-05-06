@@ -47,9 +47,9 @@ container_tags:
   - name: gitlab
     tag: 17.11.1-ce.0
   - name: postgres
-    tag: 13.15-alpine
+    tag: 13.20-alpine
   - name: redis
-    tag: 7.0.11-alpine
+    tag: 7.4.3-alpine
   - name: traefik
     tag: v3.4.0
 
