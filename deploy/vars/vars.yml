@@ -25,17 +25,17 @@ cfssl_config:
     profiles:
       client:
         usages:
-          - signing
-          - digital signature
-          - key encipherment
-          - client auth
+        - signing
+        - digital signature
+        - key encipherment
+        - client auth
         expiry: 8760h
       server:
         usages:
-          - signing
-          - digital signature
-          - key encipherment
-          - server auth
+        - signing
+        - digital signature
+        - key encipherment
+        - server auth
         expiry: 8760h
 
 compose_directory: /dkr
@@ -83,9 +83,9 @@ htpasswd_credentials:
   group: "{{ compose_user }}"
   mode: "0644"
   users:
-    - username: traefik
-      password: "{{ traefik_htpasswd | default('traefik') }}"
-      crypt_scheme: apr_md5_crypt
+  - username: traefik
+    password: "{{ traefik_htpasswd | default('traefik') }}"
+    crypt_scheme: apr_md5_crypt
 
 upstream_dns:
 - 1.1.1.3
