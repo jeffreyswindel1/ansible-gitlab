@@ -11,4 +11,4 @@ lint:
   - ansible-galaxy install -r requirements.yml
   - ansible-lint -c .ansible-lint
   tags:
-    - docker
+  - docker

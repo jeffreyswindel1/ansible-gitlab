@@ -18,7 +18,7 @@
   args:
     chdir: "{{ compose_directory_result.path }}"
   when:
-  - not certificate.stat.exists
+    - not certificate.stat.exists
 
 - name: Renew service certificates
   when: certificate.stat.exists

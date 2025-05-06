@@ -1,6 +1,6 @@
 exclude_paths:
-- roles/
+  - roles/
 offline: true
 skip_list:
-- no-changed-when
+  - no-changed-when
 warn_list: []
