@@ -1,16 +1,11 @@
 ---
 image: python:3-slim
 stages:
-  - validate
-setup:
-  stage: .pre
+  - lint
+lint:
+  stage: lint
   script:
     - pip install -r requirements.txt
-  tags:
-    - docker
-validate:
-  stage: validate
-  script:
     - ansible-lint .
   tags:
     - docker
