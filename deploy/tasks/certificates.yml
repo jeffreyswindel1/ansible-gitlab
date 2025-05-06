@@ -29,10 +29,4 @@
         valid_at:
           point_1: "+1w"
       register: certificate_info
-    - name: Regenerate service certificates
-      ansible.builtin.command:
-        cmd: "{{ cfssl_generate_cert_cmd }}"
-      args:
-        chdir: "{{ compose_directory_result.path }}"
-      when:
-        - not certificate_info.valid_at['point_1']
+      notify: Regenerate service certificates

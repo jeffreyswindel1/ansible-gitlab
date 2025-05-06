@@ -17,6 +17,13 @@
         files:
           - docker-compose.yml
         state: present
+    - name: Regenerate service certificates
+      ansible.builtin.command:
+        cmd: "{{ cfssl_generate_cert_cmd }}"
+      args:
+        chdir: "{{ compose_directory_result.path }}"
+      when:
+        - not certificate_info.valid_at['point_1']
   tasks:
     - name: Create System User
       become: true

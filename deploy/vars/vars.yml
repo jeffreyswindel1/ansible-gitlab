@@ -16,7 +16,7 @@ cfssl_ca:
   names:
     - C: "{{ cfssl_ca_country | default('US') }}"
       ST: "{{ cfssl_ca_state | default('UT') }}"
-      L: "{{ cfssl_ca_location | default('Salt Lake City')}}"
+      L: "{{ cfssl_ca_location | default('Salt Lake City') }}"
       O: "{{ cfssl_ca_org | default('DevOps') }}"
 cfssl_config:
   signing:

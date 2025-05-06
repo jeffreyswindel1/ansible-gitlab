@@ -4,7 +4,7 @@
 - name: Create compose project
   ansible.builtin.include_tasks: tasks/create.yml
   when: gitlab_stack == "enabled"
- 
+
 - name: Destroy compose project
   ansible.builtin.include_tasks: tasks/destroy.yml
   when: gitlab_stack == "disabled"

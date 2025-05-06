@@ -11,8 +11,8 @@
     files:
       - docker-compose.yml
     state: absent
-  when: compose_directory_check.stat.exists 
- 
+  when: compose_directory_check.stat.exists
+
 - name: Remove docker directory
   become: true
   become_method: ansible.builtin.sudo
