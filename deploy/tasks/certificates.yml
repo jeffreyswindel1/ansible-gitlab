@@ -1,0 +1,38 @@
+---
+- name: Set certificate generate command
+  ansible.builtin.set_fact:
+    cfssl_generate_cert_cmd: "docker compose run --rm --entrypoint sh cfssl \
+      -c \"cfssl gencert -ca ca.pem -ca-key ca-key.pem \
+      -config /etc/cfssl/config/config.json \
+      -profile server /etc/cfssl/config/{{ service }}.json |
+      cfssljson -bare {{ service }}-server\""
+
+- name: Check if certificate exists
+  ansible.builtin.stat:
+    path: "{{ compose_directory_result.path }}/etc/cfssl/{{ service }}-server.pem"
+  register: certificate
+
+- name: Generate service certificates
+  ansible.builtin.command:
+    cmd: "{{ cfssl_generate_cert_cmd }}"
+  args:
+    chdir: "{{ compose_directory_result.path }}"
+  when:
+    - not certificate.stat.exists
+
+- name: Renew service certificates
+  when: certificate.stat.exists
+  block:
+    - name: Check certificate expiration
+      community.crypto.x509_certificate_info:
+        path: "{{ compose_directory_result.path }}/etc/cfssl/{{ service }}-server.pem"
+        valid_at:
+          point_1: "+1w"
+      register: certificate_info
+    - name: Regenerate service certificates
+      ansible.builtin.command:
+        cmd: "{{ cfssl_generate_cert_cmd }}"
+      args:
+        chdir: "{{ compose_directory_result.path }}"
+      when:
+        - not certificate_info.valid_at['point_1']

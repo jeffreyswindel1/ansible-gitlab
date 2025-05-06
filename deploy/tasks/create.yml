@@ -1,0 +1,66 @@
+---
+- name: Create compose directory
+  become: true
+  become_method: ansible.builtin.sudo
+  ansible.builtin.file:
+    path: "{{ compose_directory }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ compose_user }}"
+    group: "{{ compose_user }}"
+  register: compose_directory_result
+
+- name: Create docker-compose.yml
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ compose_directory_result.path }}/docker-compose.yml"
+    mode: '0644'
+    owner: "{{ compose_user }}"
+    group: "{{ compose_user }}"
+  register: compose_result
+  notify: Deploy stack
+
+- name: Setup docker-compose env
+  block:
+    - name: Set compose env file path fact
+      ansible.builtin.set_fact:
+        compose_env_file: "{{ compose_directory_result.path }}/.env"
+    - name: Apply container tag variables
+      ansible.builtin.lineinfile:
+        path: "{{ compose_env_file }}"
+        regexp: "^TAG_{{ item.name | upper }}="
+        line: "TAG_{{ item.name | upper }}={{ item.tag }}"
+        create: true
+        mode: '0644'
+        owner: "{{ compose_user }}"
+        group: "{{ compose_user }}"
+      loop: "{{ container_tags }}"
+      loop_control:
+        label: "{{ item.name }}"
+      notify: Deploy stack
+    - name: Add DOMAIN variable
+      ansible.builtin.lineinfile:
+        path: "{{ compose_env_file }}"
+        regexp: '^DOMAIN='
+        line: "DOMAIN={{ domain }}"
+      notify: Deploy stack
+    - name: Add Additional Gitlab Environment Variables
+      ansible.builtin.lineinfile:
+        path: "{{ compose_env_file }}"
+        regexp: '^{{ item.key }}='
+        line: "{{ item.key }}={{ item.value }}"
+      notify: Deploy stack
+      loop: "{{ gitlab.env | dict2items }}"
+
+- name: Setup cfssl container and generate certificates
+  ansible.builtin.include_tasks: cfssl.yml
+  tags:
+    - cfssl
+    - config
+    - certificates
+
+- name: Setup traefik container
+  ansible.builtin.include_tasks: traefik.yml
+  tags:
+    - config
+    - traefik

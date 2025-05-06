@@ -1,0 +1,92 @@
+# {{ ansible_managed }}
+---
+api:
+  dashboard: {{ traefik.enable_dashboard | bool }}
+core:
+  defaultRuleSyntax: v3
+{% if traefik.use_letsencrypt %}
+certificatesResolvers:
+  resolver:
+    acme:
+{% raw %}
+      email: "{{ env \"EMAIL\" }}"
+{% endraw %}
+      storage: /etc/traefik/config/letsencrypt/acme.json
+      caServer: https://acme-v02.api.letsencrypt.org/directory
+      dnsChallenge:
+        provider: {{ challenge_provider | default('cloudflare') }}
+        delayBeforeCheck: "300"
+        resolvers:
+{% for ns in upstream_dns %}
+          - {{ ns }}:53
+{% endfor %}
+  httpchallenge:
+    acme:
+{% raw %}
+      email: "{{ env \"EMAIL\" }}"
+{% endraw %}
+      storage: /etc/traefik/config/letsencrypt/acme.json
+      httpChallenge:
+        entryPoint: web
+  tlschallenge:
+    acme:
+      caServer: https://acme-v02.api.letsencrypt.org/directory
+{% raw %}
+      email: "{{ env \"EMAIL\" }}"
+{% endraw %}
+      storage: /etc/traefik/config/letsencrypt/acme.json # chmod 600 this file on the host system
+      tlsChallenge: {}
+{% endif %}
+entryPoints:
+{% if traefik.enable_metrics %}
+  metrics:
+    address: :8082
+{% endif %}
+  ssh:
+    address: :22
+  web:
+    address: :80
+    http:
+      redirections:
+        entryPoint:
+          to: web-secure
+          scheme: https
+  web-secure:
+    address: :443
+    http:
+      tls: true
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false
+log:
+  level: INFO
+{% if traefik.enable_metrics %}
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addServicesLabels: true
+    buckets:
+      - 0.1
+      - 0.3
+      - 1.2
+      - 5.0
+    entryPoint: metrics
+{% endif %}
+ping: {}
+providers:
+  providersThrottleDuration: 2s
+  docker:
+    defaultRule:
+{%- raw %}
+      "Host(`{{ index .Labels \"com.docker.compose.service\" }}\
+      .{{ env \"DOMAIN\" }}`)"
+{% endraw %}
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    network: dns
+    watch: true
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+serversTransport:
+  insecureSkipVerify: true

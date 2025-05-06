@@ -1,0 +1,37 @@
+---
+- name: GitLab Docker
+  hosts: all
+  gather_facts: true
+  pre_tasks:
+    - name: Update apt cache
+      become: true
+      become_method: ansible.builtin.sudo
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+  handlers:
+    - name: Deploy stack
+      community.docker.docker_compose_v2:
+        project_name: "{{ compose_project_name }}"
+        project_src: "{{ compose_directory }}"
+        files:
+          - docker-compose.yml
+        state: present
+  tasks:
+    - name: Create System User
+      become: true
+      become_method: ansible.builtin.sudo
+      ansible.builtin.import_role:
+        name: ryandaniels.users
+      tags:
+        - user
+      when: len(users) > 0
+    - name: Install docker
+      become: true
+      become_method: ansible.builtin.sudo
+      ansible.builtin.import_role:
+        name: geerlingguy.docker
+    - name: Include tasks from main.yml
+      ansible.builtin.include_tasks: tasks/main.yml
+  vars_files:
+    - vars/vars.yml

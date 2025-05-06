@@ -1,0 +1,7 @@
+---
+tls:
+  certificates:
+{% for service in cfssl_services %}
+    - certFile: /etc/cfssl/{{ service }}-server.pem
+      keyFile: /etc/cfssl/{{ service }}-server-key.pem
+{% endfor %}

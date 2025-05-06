@@ -1,0 +1,24 @@
+---
+- name: Check if compose_directory exists
+  ansible.builtin.stat:
+    path: "{{ compose_directory }}"
+  register: compose_directory_check
+ 
+- name: Stop compose stack
+  community.docker.docker_compose_v2:
+    project_name: "{{ compose_project_name }}"
+    project_src: "{{ compose_directory }}"
+    files:
+      - docker-compose.yml
+    state: absent
+  when: compose_directory_check.stat.exists 
+ 
+- name: Remove docker directory
+  become: true
+  become_method: ansible.builtin.sudo
+  ansible.builtin.file:
+    path: "{{ compose_directory }}"
+    state: absent
+    mode: '0755'
+    owner: "{{ compose_user }}"
+    group: "{{ compose_user }}"

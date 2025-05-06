@@ -1,0 +1,35 @@
+# Ansible managed
+---
+x-common: &common-settings
+  labels:
+    vscode.devcontainer.workspace: flow-ansible-devcontainer
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: 3
+  networks:
+    - ansible
+  restart: unless-stopped
+name: ansible-devcontainer
+networks:
+  ansible:
+    name: ansible
+services:
+  dind:
+    <<: *common-settings
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - >-
+          curl -sS http://localhost:2375/_ping |
+          grep -c OK > /dev/null
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    hostname: dind
+    image: "dind:${TAG_DIND:-26.1.0}"
+    privileged: True

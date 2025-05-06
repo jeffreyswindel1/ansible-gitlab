@@ -1,0 +1,26 @@
+{
+    "[shellscript]": {
+        "editor.tabSize": 4
+    },
+    "[yaml]": {
+        "editor.formatOnSave": false,
+        "editor.tabSize": 2
+    },
+    "ansible.python.interpreterPath": "/usr/bin/python3",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.insertSpaces": true,
+    "editor.renderWhitespace": "all",
+    "files.associations": {
+        "ansible/*": "ansible"
+    },
+    "files.exclude": {
+        ".vscode-test": true,
+        "out": true
+    },
+    "search.exclude": {
+        ".vscode-test": true,
+        "out": true
+    }
+}

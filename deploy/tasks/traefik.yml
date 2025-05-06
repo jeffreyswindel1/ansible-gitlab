@@ -1,0 +1,34 @@
+---
+- name: Create directory for traefik config
+  ansible.builtin.file:
+    name: "{{ compose_directory_result.path }}/traefik/config"
+    state: directory
+    mode: "0755"
+    owner: "{{ compose_user }}"
+    group: "{{ compose_user }}"
+  register: traefik_directory_result
+
+- name: Setup htpasswd for traefik
+  ansible.builtin.include_role:
+    name: bodsch.htpasswd
+  when: traefik.enable_htpasswd
+
+- name: Setup traefik container
+  tags:
+    - config
+    - traefik
+  block:
+    - name: Template traefik config file
+      ansible.builtin.template:
+        src: traefik.yaml.j2
+        dest: "{{ traefik_directory_result.path }}/traefik.yaml"
+        mode: "0644"
+        owner: "{{ compose_user }}"
+        group: "{{ compose_user }}"
+    - name: Template traefik dynamic certs file
+      ansible.builtin.template:
+        src: certs-traefik.yaml.j2
+        dest: "{{ traefik_directory_result.path }}/certs-traefik.yaml"
+        mode: "0644"
+        owner: "{{ compose_user }}"
+        group: "{{ compose_user }}"

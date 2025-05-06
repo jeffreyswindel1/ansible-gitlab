@@ -1,0 +1,8 @@
+{
+    "CN": "{{ certificate_cn }}",
+    "key": {{ cfssl_ca.key | to_nice_json }},
+    "names": {{ cfssl_ca.names | to_nice_json }},
+    "hosts": [
+        "{{ certificate_cn }}"
+    ]
+}

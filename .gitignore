@@ -1,0 +1,26 @@
+# Ansible
+ansible/roles/*
+ansible/hosts.yml
+
+# Certificates
+*.csr
+*.pem
+
+# CFSSL Config
+docker/etc/cfssl/config/*
+
+# Compose Services
+docker/pihole/*
+traefik/config/letsencrypt/*
+
+# Environment
+.env
+
+# Mac OS X
+.DS_Store
+
+# Vagrant
+.vagrant
+
+# virtualenv files
+.venv/*

@@ -1,0 +1,5 @@
+exclude_paths:
+  - roles/
+offline: true
+skip_list: []
+warn_list: []

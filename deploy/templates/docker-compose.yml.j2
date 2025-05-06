@@ -1,0 +1,209 @@
+# {{ ansible_managed }}
+---
+x-common: &common-settings
+  logging:
+    driver: json-file
+    options:
+      max-size: 100m
+      max-file: "3"
+  platform: linux/{{ arch }}
+  pull_policy: {{ compose_pull_policy |default('missing') }}
+  restart: unless-stopped
+x-network: &default-networks
+  networks:
+    - gitlab
+name: {{ compose_project_name }}
+networks:
+  gitlab:
+    name: gitlab
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1500
+{% if docker_network.enable_ipv6 %}
+      com.docker.network.enable_ipv6: "true"
+{% endif %}
+    ipam:
+      config:
+        - subnet: {{ docker_network.subnet.ipv4 }}
+{% if docker_network.enable_ipv6 %}
+        - subnet: {{ docker_network.subnet.ipv6 }}
+{% endif %}
+services:
+{% if not traefik.use_letsencrypt %}
+  cfssl:
+    container_name: cfssl
+    command: serve -address=0.0.0.0 -config=/etc/cfssl/config/config.json
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail http://localhost:8888 || exit 1"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    image: cfssl/cfssl:${TAG_CFSSL:-latest}
+    <<: [*common-settings, *default-networks]
+    volumes:
+      - {{ compose_directory }}/etc/cfssl:/etc/cfssl:rw
+    working_dir: /etc/cfssl
+{% endif %}
+  gitlab:
+    container_name: gitlab
+    <<: [*common-settings, *default-networks]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      traefik:
+        condition: service_healthy
+    environment:
+      DB_ADAPTER: postgresql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      GITLAB_HOST: ${GITLAB_HOST}
+      GITLAB_HTTPS: false
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url "http://${GITLAB_HOST}"
+      GITLAB_PORT: 80
+      GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
+      GITLAB_SSH_PORT: 22
+      GITLAB_TIMEZONE: ${GITLAB_TIMEZONE:-America/Denver}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      TZ: ${GITLAB_TIMEZONE:-America/Denver}
+      SSL_SELF_SIGNED: false
+    healthcheck:
+      test:
+        ["CMD-SHELL", "/opt/gitlab/bin/gitlab-healthcheck --fail --max-time 10"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    hostname: gitlab
+    image: gitlab/gitlab-ce:${TAG_GITLAB:-latest}
+    labels:
+      traefik.http.routers.gitlab.entrypoints: web-secure
+      traefik.http.routers.gitlab.tls.certresolver: resolver
+      traefik.http.services.gitlab.loadbalancer.server.port: 80
+      # SSH
+      traefik.tcp.routers.gitlab-ssh.rule: HostSNI(`*`)
+      traefik.tcp.routers.gitlab-ssh.entrypoints: ssh
+      traefik.tcp.routers.gitlab-ssh.service: gitlab-ssh
+      traefik.tcp.services.gitlab-ssh.loadbalancer.server.port: 22
+       # Headers
+      traefik.http.routers.gitlab.middlewares: gitlab-headers
+      traefik.http.middlewares.gitlab-headers.headers.customrequestheaders.X_FORWARDED_PROTO: https
+      traefik.http.middlewares.gitlab-headers.headers.customrequestheaders.X_Forwarded-Ssl: on
+      traefik.http.middlewares.gitlab-headers.headers.customresponseheaders.X_FORWARDED_PROTO: https
+      traefik.http.middlewares.gitlab-headers.headers.customresponseheaders.X_Forwarded-Ssl: on
+%{% if gitlab.enable_registry %}
+      # Registry
+      traefik.http.routers.gitlab-registry.rule: Host(`registry.${DOMAIN}`)'
+      traefik.http.routers.gitlab-registry.entrypoints: websecure
+      traefik.http.routers.gitlab-registry.service: gitlab-registry-svc
+      traefik.http.services.gitlab-registry-svc.loadbalancer.server.port: 80
+%{% endif %}
+    privileged: true
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
+    volumes:
+      - {{ compose_directory }}/gitlab/config:/etc/gitlab:rw
+      - {{ compose_directory }}/gitlab/logs:/var/log/gitlab:rw
+      - {{ compose_directory }}/gitlab/data:/var/opt/gitlab:rw
+  postgres:
+    container_name: postgres
+    <<: [*common-settings, *default-networks]
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      PGDATA: /data/postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    hostname: postgres
+    image: postgres:${TAG_POSTGRES:-latest}
+    volumes:
+      - {{ compose_directory }}/postgres/data:/data/postgres:rw
+  redis:
+    container_name: redis
+    <<: [*common-settings, *default-networks]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    hostname: redis
+    image: redis:${TAG_REDIS:-latest}
+    labels:
+      traefik.enable: false
+    volumes:
+      - {{ compose_directory }}/redis/data:/data:rw
+  runner:
+    container_name: runner
+    <<: [*common-settings, *default-networks]
+    depends_on:
+      gitlab:
+        condition: service_healthy
+    hostname: runner
+    image: gitlab/gitlab-runner:alpine
+    volumes:
+     - ${PWD}/gitlab/runner/config/gitlab-runner:/etc/gitlab-runner
+     - /var/run/docker.sock:/var/run/docker.sock
+  traefik:
+    container_name: traefik
+    <<: [*common-settings, *default-networks]
+    environment:
+      DOMAIN: ${DOMAIN:-local}
+{% if traefik.use_letsencrypt %}
+      EMAIL: ${EMAIL}
+{% endif %}
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    image: traefik:${TAG_TRAEFIK:-latest}
+    labels:
+      traefik.enable: {{ traefik.enable_dashboard | bool }}
+      traefik.http.routers.traefik.entrypoints: web-secure
+      traefik.http.routers.traefik.service: api@internal
+{% if traefik.use_letsencrypt %}
+      traefik.http.routers.traefik.tls.certresolver: resolver
+{% endif %}
+{% if traefik.enable_htpasswd %}
+      traefik.http.middlewares.traefik-auth.basicauth.usersfile: /etc/traefik/usersfile
+      traefik.http.routers.traefik-auth.middlewares: dashboard
+{% endif %}
+    security_opt:
+      - no-new-privileges:true
+    stdin_open: true
+    tty: true
+    ports:
+      - mode: host
+        published: 80
+        protocol: tcp
+        target: 80
+      - mode: host
+        published: 443
+        protocol: udp
+        target: 443
+      - mode: host
+        published: {{ gitlab.ssh_port }}
+        protocol: tcp
+        target: 22
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/localtime:/etc/localtime:ro
+      - {{ compose_directory }}/etc/cfssl:/etc/cfssl:rw
+      - {{ compose_directory }}/traefik/config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+      - {{ compose_directory }}/traefik/config/certs-traefik.yaml:/etc/traefik/dynamic/certs-traefik.yaml:ro

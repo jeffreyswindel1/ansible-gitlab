@@ -1,0 +1,25 @@
+{
+    "customizations": {
+        "file.associations": {
+            "**/*.json": "jsonc",
+            "**/*.yaml": "yaml",
+            "**/*.yml": "yaml",
+            "[Dd]ockerfile": "dockerfile",
+            "docker-compose*": "yaml"
+        },
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot",
+                "hashicorp.terraform",
+                "redhat.vscode-yaml",
+                "vscoss.vscode-ansible"
+            ]
+        }
+    },
+    "dockerComposeFile": "./docker-compose.yml",
+    "name": "ansible-devcontainer",
+    "remoteUser": "vscode",
+    "service": "devcontainer",
+    "shutdownAction": "stopCompose",
+    "workspaceFolder": "/workspace"
+}
