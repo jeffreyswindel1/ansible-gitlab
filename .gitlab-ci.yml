@@ -6,6 +6,6 @@ lint:
   stage: lint
   script:
     - pip install -r requirements.txt
-    - ansible-lint .
+    - ansible-lint "$CI_PROJECT_DIR/deploy"
   tags:
     - docker
