@@ -15,8 +15,8 @@
 
 - name: Setup traefik container
   tags:
-  - config
-  - traefik
+    - config
+    - traefik
   block:
     - name: Template traefik config file
       ansible.builtin.template:

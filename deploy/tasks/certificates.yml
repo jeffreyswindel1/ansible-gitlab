@@ -23,10 +23,10 @@
 - name: Renew service certificates
   when: certificate.stat.exists
   block:
-  - name: Check certificate expiration
-    community.crypto.x509_certificate_info:
-      path: "{{ compose_directory_result.path }}/etc/cfssl/{{ service }}-server.pem"
-      valid_at:
-        point_1: "+1w"
-    register: certificate_info
-    notify: Regenerate service certificates
+    - name: Check certificate expiration
+      community.crypto.x509_certificate_info:
+        path: "{{ compose_directory_result.path }}/etc/cfssl/{{ service }}-server.pem"
+        valid_at:
+          point_1: "+1w"
+      register: certificate_info
+      notify: Regenerate service certificates

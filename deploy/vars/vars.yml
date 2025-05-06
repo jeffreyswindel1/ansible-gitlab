@@ -78,14 +78,14 @@ gitlab:
     GITLAB_TIMEZONE: America/Denver
 
 htpasswd_credentials:
-- path: "{{ traefik_directory_result.path }}/usersfile"
-  owner: "{{ compose_user }}"
-  group: "{{ compose_user }}"
-  mode: "0644"
-  users:
-    - username: traefik
-      password: "{{ traefik_htpasswd | default('traefik') }}"
-      crypt_scheme: apr_md5_crypt
+  - path: "{{ traefik_directory_result.path }}/usersfile"
+    owner: "{{ compose_user }}"
+    group: "{{ compose_user }}"
+    mode: "0644"
+    users:
+      - username: traefik
+        password: "{{ traefik_htpasswd | default('traefik') }}"
+        crypt_scheme: apr_md5_crypt
 
 upstream_dns:
   - 1.1.1.3
