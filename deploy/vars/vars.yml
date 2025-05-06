@@ -64,7 +64,7 @@ docker_network:
     - source: 80
     - source: 443
 docker_users:
-  - "{{ compose_user }}"
+- "{{ compose_user }}"
 domain: example.net
 
 gitlab:

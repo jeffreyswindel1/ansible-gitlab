@@ -3,7 +3,7 @@
   ansible.builtin.stat:
     path: "{{ compose_directory }}"
   register: compose_directory_check
- 
+
 - name: Stop compose stack
   community.docker.docker_compose_v2:
     project_name: "{{ compose_project_name }}"

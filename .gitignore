@@ -1,6 +1,11 @@
 # Ansible
-ansible/roles/*
-ansible/hosts.yml
+deploy/hosts.yml
+# Locally stored Ansible resources
+.ansible/*
+deploy/collections/*
+!deploy/collections/.gitkeep
+deploy/roles/*
+!deploy/roles/.gitkeep
 
 # Certificates
 *.csr
@@ -24,3 +29,4 @@ traefik/config/letsencrypt/*
 
 # virtualenv files
 .venv/*
+
