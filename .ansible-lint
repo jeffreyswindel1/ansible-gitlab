@@ -1,0 +1,6 @@
+---
+exclude_paths:
+  - .devcontainer/docker-compose.yml
+  - .gitlab-ci.yml
+  - .markdownlint.yaml
+  - .pre-commit-config.yml
