@@ -2,6 +2,7 @@
 image: python:3-slim
 stages:
   - lint
+  - release
 lint:
   stage: lint
   script:
@@ -12,3 +13,31 @@ lint:
     - ansible-lint -c .ansible-lint
   tags:
     - docker
+release:
+  stage: release
+  variables:
+    GIT_COMMIT_AUTHOR: "semantic-release <$GIT_EMAIL>"
+    GIT_EMAIL: $GIT_EMAIL
+    GIT_PASSWORD: $GIT_PASSWORD
+    GIT_USERNAME: $GIT_USERNAME
+    GITLAB_TOKEN: $GIT_PASSWORD
+    SEMANTIC_RELEASE_VERSION: 9.8.8
+    GIT_STRATEGY: clone
+    GIT_DEPTH: 0
+    GITLAB_CI: true
+    REPO_URL: https://$CI_SERVER_HOST/$CI_PROJECT_PATH
+    SERVER_URL: https://$CI_SERVER_HOST
+  script:
+    - apt-get update -y && apt-get install -y git --no-install-recommends
+    - git config --global user.email $GIT_EMAIL
+    - git config --global user.name $GIT_USERNAME
+    - git config --global url."https://$GIT_USERNAME:$GIT_PASSWORD@$CI_SERVER_HOST".insteadOf https://$CI_SERVER_HOST
+    - git checkout $CI_DEFAULT_BRANCH
+    - git fetch --tags
+    - pip install python-semantic-release==${SEMANTIC_RELEASE_VERSION} --quiet
+    - semantic-release version
+  tags:
+    - docker
+  only:
+    - main
+ 
