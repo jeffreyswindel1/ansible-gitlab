@@ -24,6 +24,7 @@
         chdir: "{{ compose_directory_result.path }}"
       when:
         - not certificate_info.valid_at['point_1']
+        - not traefik.use_letsencrypt
   tasks:
     - name: Create System User
       become: true

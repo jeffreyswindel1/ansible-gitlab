@@ -58,6 +58,7 @@
     - cfssl
     - config
     - certificates
+  when: not traefik.use_letsencrypt
 
 - name: Setup traefik container
   ansible.builtin.include_tasks: traefik.yml
