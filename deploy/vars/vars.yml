@@ -45,7 +45,7 @@ container_tags:
   - name: cfssl
     tag: v1.6.5
   - name: gitlab
-    tag: 17.11.1-ce.0
+    tag: 17.11.2-ce.0
   - name: postgres
     tag: 13.20-alpine
   - name: redis
