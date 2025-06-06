@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v0.1.1 (2025-06-06)
+
+### Chore
+
+* chore: update image tag ([`b9e436d`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/b9e436d9ee738dcf67c24849220177de53241eb2))
+
+* chore: toggle cfssl tasks ([`719dd7f`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/719dd7fb7baec1b8965f136898820dcb08683081))
+
+### Fix
+
+* fix: onnibus config
+
+-setup host as https ([`4324429`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/432442945045dc9a1d1acebc2475ed14786f89a1))
+
 ## v0.1.0 (2025-05-08)
 
 ### Feature
