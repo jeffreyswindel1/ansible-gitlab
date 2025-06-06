@@ -66,6 +66,16 @@ services:
       GITLAB_HTTPS: false
       GITLAB_OMNIBUS_CONFIG: |
         external_url "http://${GITLAB_HOST}"
+        gitlab_rails['trusted_proxies'] = ['traefik']
+        letsencrypt['enable'] = false
+        nginx['enable'] = true
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+        nginx['error_log_level'] = "debug"
+        nginx['proxy_set_headers'] = {
+          "X-Forwarded-Proto" => "https",
+          "X-Forwarded-Ssl" => "on"
+        }
       GITLAB_PORT: 80
       GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
       GITLAB_SSH_PORT: 22
