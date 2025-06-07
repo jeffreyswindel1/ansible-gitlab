@@ -59,14 +59,26 @@ services:
       GITLAB_HOST: ${GITLAB_HOST}
       GITLAB_HTTPS: false
       GITLAB_OMNIBUS_CONFIG: |
-        external_url "http://${GITLAB_HOST}"
+        external_url "https://${GITLAB_HOST}"
+
         gitlab_pages['enable'] = true
         gitlab_pages['inplace_chroot'] = true
         gitlab_pages['listen_proxy'] = "0.0.0.0:8090"
+  
+        gitlab_rails['backup_path'] = "/mnt/gitlab/gitlab_backups"
+        gitlab_rails['backup_keep_time'] = 604800  # 7 days
+
         gitlab_rails['db_host'] = "postgres"
+        gitlab_rails['db_database'] = "gitlab"
+        gitlab_rails['db_username'] = "gitlab"
+        gitlab_rails['db_password'] = "${GITLAB_DB_PASSWORD}"
+        
         gitlab_rails['redis_host'] = "redis"
+
         gitlab_rails['trusted_proxies'] = ['traefik']
+
         letsencrypt['enable'] = false
+
         nginx['enable'] = true
         nginx['listen_port'] = 80
         nginx['listen_https'] = false
@@ -75,12 +87,16 @@ services:
           "X-Forwarded-Proto" => "https",
           "X-Forwarded-Ssl" => "on"
         }
+
         pages_nginx['listen_https'] = false
-        pages_nginx['listen_port'] = 80 
+        pages_nginx['listen_port'] = 80
+ 
         postgresql['enable'] = false
+        prometheus['enable'] = false
+        redis['enable'] = false
+
         registry_nginx['listen_https'] = false
         registry_nginx['listen_port'] = 80
-        redis['enable'] = false
       GITLAB_PORT: 80
       GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
       GITLAB_SSH_PORT: 22
