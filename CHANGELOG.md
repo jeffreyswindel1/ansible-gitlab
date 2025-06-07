@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.1.2 (2025-06-07)
+
+### Chore
+
+* chore: update gitlab env ([`ea07012`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/ea07012b6bc02ef24bfafe22017935957ad3668d))
+
+### Fix
+
+* fix: gitlab onnibus config ([`9a839a1`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/9a839a10aeed86a80e162494c9217c6ab216af16))
+
 ## v0.1.1 (2025-06-06)
 
 ### Chore
