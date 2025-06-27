@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.1.3 (2025-06-27)
+
+### Fix
+
+* fix: linting ([`9d2da90`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/9d2da903bc6da15348c3d5b82eea6262b07b0ce3))
+
+* fix: remove hostname role ([`19a8174`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/19a8174862ef0a2ff39f10fea235c2f81e5a5cd9))
+
+* fix: deployment variables ([`5caa61d`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/5caa61d5481d851bc74e2ada46fa49bb6efd1037))
+
 ## v0.1.2 (2025-06-07)
 
 ### Chore
