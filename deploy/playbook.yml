@@ -3,7 +3,7 @@
   hosts: aws_ec2
   gather_facts: true
   pre_tasks:
-    - name: Assert agent_installer_channel is set
+    - name: Assert required variables are set
       ansible.builtin.assert:
         that:
           - domain is defined
