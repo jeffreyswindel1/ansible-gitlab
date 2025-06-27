@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.1.4 (2025-06-27)
+
+### Chore
+
+* chore: task name change ([`86fc90a`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/86fc90aed94c3057c471846cc65572bd38648b0c))
+
+### Fix
+
+* fix: traefik gitlab label and ports ([`7837100`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/783710050baf6b7cb2b63a4252761f6e371f0dd6))
+
 ## v0.1.3 (2025-06-27)
 
 ### Fix
