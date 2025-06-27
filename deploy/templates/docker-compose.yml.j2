@@ -64,15 +64,15 @@ services:
         gitlab_pages['enable'] = true
         gitlab_pages['inplace_chroot'] = true
         gitlab_pages['listen_proxy'] = "0.0.0.0:8090"
-  
+
         gitlab_rails['backup_path'] = "/mnt/gitlab/gitlab_backups"
         gitlab_rails['backup_keep_time'] = 604800  # 7 days
 
         gitlab_rails['db_host'] = "postgres"
-        gitlab_rails['db_database'] = "gitlab"
-        gitlab_rails['db_username'] = "gitlab"
-        gitlab_rails['db_password'] = "${GITLAB_DB_PASSWORD}"
-        
+        gitlab_rails['db_database'] = "${DB_NAME}"
+        gitlab_rails['db_username'] = "${DB_USER}"
+        gitlab_rails['db_password'] = "${DB_PASS}"
+
         gitlab_rails['redis_host'] = "redis"
 
         gitlab_rails['trusted_proxies'] = ['traefik']
@@ -90,7 +90,7 @@ services:
 
         pages_nginx['listen_https'] = false
         pages_nginx['listen_port'] = 80
- 
+
         postgresql['enable'] = false
         prometheus['enable'] = false
         redis['enable'] = false
@@ -129,13 +129,13 @@ services:
       traefik.http.middlewares.gitlab-headers.headers.customrequestheaders.X_Forwarded-Ssl: on
       traefik.http.middlewares.gitlab-headers.headers.customresponseheaders.X_FORWARDED_PROTO: https
       traefik.http.middlewares.gitlab-headers.headers.customresponseheaders.X_Forwarded-Ssl: on
-%{% if gitlab.enable_registry %}
+{% if gitlab.enable_registry %}
       # Registry
       traefik.http.routers.gitlab-registry.rule: Host(`registry.${DOMAIN}`)'
       traefik.http.routers.gitlab-registry.entrypoints: websecure
       traefik.http.routers.gitlab-registry.service: gitlab-registry-svc
       traefik.http.services.gitlab-registry-svc.loadbalancer.server.port: 80
-%{% endif %}
+{% endif %}
     privileged: true
     ulimits:
       nofile:

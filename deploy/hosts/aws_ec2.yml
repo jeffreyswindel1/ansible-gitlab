@@ -1,0 +1,16 @@
+
+---
+plugin: aws_ec2
+regions:
+  - us-west-2
+filters:
+  instance-state-name: running
+  tag:Name: single-tenant-customer-gitlab-01
+strict_permissions: false
+hostnames:
+  - name: 'instance-id'
+    prefix: ''
+    separator: ''
+compose:
+  ansible_host: 'tag:Name'
+hostvars_prefix: 'aws_'

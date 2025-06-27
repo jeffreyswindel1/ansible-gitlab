@@ -1,6 +1,8 @@
 exclude_paths:
+  - collections/
   - roles/
 offline: true
 skip_list:
   - no-changed-when
+  - yaml[indentation]
 warn_list: []

@@ -9,6 +9,10 @@ roles:
     src: https://github.com/bodsch/ansible-htpasswd
     scm: git
     version: 1.1.5
+  - name: flow.hostname
+    src: https://github.com/Git-Prime/flow-ansible-hostname.git
+    scm: git
+    version: v0.1.2
   - name: ryandaniels.users
     src: https://github.com/ryandaniels/ansible-role-create-users
     scm: git

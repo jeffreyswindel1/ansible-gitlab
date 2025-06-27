@@ -1,16 +1,44 @@
 ---
 - name: GitLab Docker
-  hosts: all
+  hosts: aws_ec2
   gather_facts: true
   pre_tasks:
-    - name: Update apt cache
+    - name: Assert agent_installer_channel is set
+      ansible.builtin.assert:
+        that:
+          - domain is defined
+        fail_msg: "Variable domain is not set. Please set it in the group_vars file."
+    - name: Pause for cloud-init to finish
+      ansible.builtin.pause:
+        minutes: 5
+      when: ansible_uptime_seconds <= 300
+    - name: Install prerequisites (on Debian)
       become: true
-      become_method: ansible.builtin.sudo
-      ansible.builtin.apt:
-        update_cache: true
-        cache_valid_time: 3600
+      when: ansible_os_family == 'Debian'
+      block:
+        - name: Update package cache
+          ansible.builtin.apt:
+            update_cache: true
+            cache_valid_time: 3600
+            upgrade: dist
+        - name: Install package dependencies
+          ansible.builtin.apt:
+            name:
+              - acl
+              - cron
+              - nano
+              - python3
+              - python3-pip
+        - name: Update python alternatives
+          ansible.builtin.raw: update-alternatives \
+            --install /usr/bin/python python /usr/bin/python3 1
+          tags:
+            - skip_ansible_lint
   handlers:
     - name: Deploy stack
+      become: true
+      become_user: "{{ compose_user }}"
+      become_method: ansible.builtin.sudo
       community.docker.docker_compose_v2:
         project_name: "{{ compose_project_name }}"
         project_src: "{{ compose_directory }}"
@@ -26,20 +54,22 @@
         - not certificate_info.valid_at['point_1']
         - not traefik.use_letsencrypt
   tasks:
-    - name: Create System User
+    - name: Run main tasks
       become: true
       become_method: ansible.builtin.sudo
-      ansible.builtin.import_role:
-        name: ryandaniels.users
-      tags:
-        - user
-      when: len(users) > 0
-    - name: Install docker
-      become: true
-      become_method: ansible.builtin.sudo
-      ansible.builtin.import_role:
-        name: geerlingguy.docker
-    - name: Include tasks from main.yml
-      ansible.builtin.include_tasks: tasks/main.yml
+      block:
+        # - name: Set Hostname
+        #   ansible.builtin.import_role:
+        #     name: flow.hostname
+        - name: Create System User
+          ansible.builtin.import_role:
+            name: ryandaniels.users
+          tags:
+            - user
+        - name: Install docker
+          ansible.builtin.import_role:
+            name: geerlingguy.docker
+        - name: Include tasks from main.yml
+          ansible.builtin.import_tasks: tasks/main.yml
   vars_files:
     - vars/vars.yml
