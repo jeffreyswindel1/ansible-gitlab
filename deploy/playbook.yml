@@ -58,9 +58,6 @@
       become: true
       become_method: ansible.builtin.sudo
       block:
-        # - name: Set Hostname
-        #   ansible.builtin.import_role:
-        #     name: flow.hostname
         - name: Create System User
           ansible.builtin.import_role:
             name: ryandaniels.users
