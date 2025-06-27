@@ -115,6 +115,7 @@ services:
     hostname: gitlab
     image: gitlab/gitlab-ce:${TAG_GITLAB:-latest}
     labels:
+      traefik.enable: true
       traefik.http.routers.gitlab.entrypoints: web-secure
       traefik.http.routers.gitlab.tls.certresolver: resolver
       traefik.http.services.gitlab.loadbalancer.server.port: 80
@@ -221,15 +222,15 @@ services:
     tty: true
     ports:
       - mode: host
-        published: 80
+        published: {{ traefik.exposed_ports.http | default('80') }}
         protocol: tcp
         target: 80
       - mode: host
-        published: 443
+        published: {{ traefik.exposed_ports.https | default('443') }}
         protocol: udp
         target: 443
       - mode: host
-        published: {{ gitlab.ssh_port }}
+        published: {{ traefik.exposed_ports.ssh | default(gitlab.ssh_port) }}
         protocol: tcp
         target: 22
     volumes:
