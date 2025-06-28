@@ -4,7 +4,7 @@
     "names": {{ cfssl_ca.names | to_nice_json }},
     "hosts": [
 {% if gitlab.enable_localhost %} 
-        localhost,
+        "localhost",
 {% endif %}  
         "{{ certificate_cn }}"
     ]
