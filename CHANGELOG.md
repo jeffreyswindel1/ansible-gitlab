@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.1 (2025-06-28)
+
+### Fix
+
+* fix: ansible variables ([`c1e15fe`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/c1e15fe0b1fa1f3b963371423048aca2dd76d4c1))
+
 ## v0.2.0 (2025-06-28)
 
 ### Chore
