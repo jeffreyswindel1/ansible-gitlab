@@ -1,5 +1,29 @@
 # CHANGELOG
 
+## v0.2.0 (2025-06-28)
+
+### Chore
+
+* chore: yaml trailing spaces ([`f192f14`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/f192f14fca6e0c9278816962e9822e4a4b4b5e30))
+
+* chore: add domain for molecule ([`91d7e17`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/91d7e17c4f54b625e5661fcbe9c253cc87b4bdf1))
+
+### Feature
+
+* feat: generate gitlab root password ([`f44a518`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/f44a51856712e606d8560ced0668229afbd2bfeb))
+
+### Fix
+
+* fix: missing &#39;:&#39; ([`ef6d681`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/ef6d681ec95e8952e545e600162f3ae3dffd7dc0))
+
+* fix: gitlab root password task&#34; ([`dba3339`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/dba333935b4b2de6dc146e36b06643a4521ed922))
+
+* fix: cfssl hosts ([`5c6df23`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/5c6df23c67e8cba0d1912dd7fe29ce9aefd809b5))
+
+* fix: cfssl directory ([`f03b56b`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/f03b56b8a3b0b65c4e9340c5f5a75dc19e45b55c))
+
+* fix: playbook hosts ([`bd186f3`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/bd186f32666ad7225c99654a5dcea6b09f94d2e5))
+
 ## v0.1.5 (2025-06-28)
 
 ### Fix
