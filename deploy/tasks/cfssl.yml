@@ -7,7 +7,7 @@
   block:
     - name: Create directory for cfssl config
       ansible.builtin.file:
-        name: "{{ compose_directory_result.path }}/etc/cfssl/config"
+        name: "{{ compose_directory_result.path }}/cfssl/config"
         state: directory
         mode: "0755"
         owner: "{{ compose_user }}"
