@@ -47,7 +47,7 @@
       ansible.builtin.lineinfile
         path: "{{ compose_env_file }}"
         regexp: '^GITLAB_ROOT_PASSWORD='
-        line: "GITLAB_ROOT_PASSWORD=  lookup('community.general.random_string', length=12)
+        line: "GITLAB_ROOT_PASSWORD=  {{ lookup('community.general.random_string', length=12) }}"
       notify: Deploy stack
       run_once: true
       no_log: true
