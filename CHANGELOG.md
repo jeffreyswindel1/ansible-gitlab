@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.1.5 (2025-06-28)
+
+### Fix
+
+* fix: add localhost access ([`ecf654f`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/ecf654f7526097b44555dc399eccfb188c5d1664))
+
 ## v0.1.4 (2025-06-27)
 
 ### Chore
