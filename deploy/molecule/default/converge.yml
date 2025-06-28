@@ -11,4 +11,4 @@
   ansible.builtin.import_playbook: >-
     ../../playbook.yml
   vars:
-    domain: local 
+    domain: local
