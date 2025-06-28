@@ -72,6 +72,7 @@ docker_users:
 gitlab:
   ssh_port: 2222
   enable_registry: true
+  enable_localhost: true
   env:
     DB_USER: postgres
     DB_PASS: postgres
