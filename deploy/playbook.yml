@@ -1,6 +1,6 @@
 ---
 - name: GitLab Docker
-  hosts: aws_ec2
+  hosts: all
   gather_facts: true
   pre_tasks:
     - name: Assert required variables are set
