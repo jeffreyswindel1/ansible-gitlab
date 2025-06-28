@@ -41,7 +41,7 @@ cfssl_config:
 
 compose_directory: /dkr
 compose_project_name: gitlab
-compose_user: gitlab
+compose_user: "{{ users[0].username }}"
 container_tags:
   - name: cfssl
     tag: v1.6.5
@@ -55,6 +55,7 @@ container_tags:
     tag: v3.4.3
 
 docker_network:
+  name: "{{ comppse_project_name }}"
   enable_ipv6: false
   subnet:
     ipv4: 172.20.0.0/24
@@ -78,7 +79,7 @@ gitlab:
     DB_PASS: postgres
     DB_NAME: gitlab
     GITLAB_HOST: gitlab.${DOMAIN}
-    # GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
+    GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
     GITLAB_TIMEZONE: America/Denver
 
 htpasswd_credentials:

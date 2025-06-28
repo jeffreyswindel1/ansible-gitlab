@@ -43,6 +43,14 @@
         regexp: '^DOMAIN='
         line: "DOMAIN={{ domain }}"
       notify: Deploy stack
+    - name: Set GitLab root password
+      ansible.builtin.lineinfile
+        path: "{{ compose_env_file }}"
+        regexp: '^GITLAB_ROOT_PASSWORD='
+        line: "GITLAB_ROOT_PASSWORD=  lookup('community.general.random_string', length=12)
+      notify: Deploy stack
+      run_once: true
+      no_log: true
     - name: Add Additional Gitlab Environment Variables
       ansible.builtin.lineinfile:
         path: "{{ compose_env_file }}"
