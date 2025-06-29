@@ -1,0 +1,4 @@
+---
+- name: Create cron jobs
+  ansible.builtin.import_role:
+    name: boutetnico.cron 

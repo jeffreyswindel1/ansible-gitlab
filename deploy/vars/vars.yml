@@ -54,6 +54,14 @@ container_tags:
   - name: traefik
     tag: v3.4.3
 
+cron_jobs:
+  - name: Run backup every Sunday at 2am.
+    job: docker exec -t gitlab gitlab-rake gitlab:backup:create
+    weekday: 0
+    minute: 0
+    hour: 2
+    user: "{{ compose_user }}"
+
 docker_network:
   name: "{{ compose_project_name }}"
   enable_ipv6: false
@@ -79,8 +87,8 @@ gitlab:
     DB_PASS: postgres
     DB_NAME: gitlab
     GITLAB_HOST: gitlab.${DOMAIN}
-    # GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
     GITLAB_TIMEZONE: America/Denver
+    # GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
 
 htpasswd_credentials:
   - path: "{{ traefik_directory_result.path }}/usersfile"

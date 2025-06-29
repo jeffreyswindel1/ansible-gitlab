@@ -65,7 +65,7 @@ services:
         gitlab_pages['inplace_chroot'] = true
         gitlab_pages['listen_proxy'] = "0.0.0.0:8090"
 
-        gitlab_rails['backup_path'] = "/mnt/gitlab/gitlab_backups"
+        gitlab_rails['backup_path'] = "/mnt/backup/gitlab"
         gitlab_rails['backup_keep_time'] = 604800  # 7 days
 
         gitlab_rails['db_host'] = "postgres"
@@ -148,6 +148,7 @@ services:
         soft: "65536"
         hard: "65536"
     volumes:
+      - ${PWD}/gitlab/backup:/mnt/backup:rw
       - {{ compose_directory }}/gitlab/config:/etc/gitlab:rw
       - {{ compose_directory }}/gitlab/logs:/var/log/gitlab:rw
       - {{ compose_directory }}/gitlab/data:/var/opt/gitlab:rw

@@ -19,7 +19,6 @@
   notify: Deploy stack
 
 - name: Setup docker-compose env
-
   block:
     - name: Set compose env file path fact
       ansible.builtin.set_fact:
@@ -43,21 +42,22 @@
         regexp: '^DOMAIN='
         line: "DOMAIN={{ domain }}"
       notify: Deploy stack
-    - name: Set GitLab root password
-      ansible.builtin.lineinfile:
-        path: "{{ compose_env_file }}"
-        regexp: '^GITLAB_ROOT_PASSWORD='
-        line: "GITLAB_ROOT_PASSWORD={{ lookup('community.general.random_string', length=12) }}"
-      notify: Deploy stack
-      run_once: true
-      no_log: true
-    - name: Add Additional Gitlab Environment Variables
+    - name: Add Stack Environment Variables
       ansible.builtin.lineinfile:
         path: "{{ compose_env_file }}"
         regexp: '^{{ item.key }}='
         line: "{{ item.key }}={{ item.value }}"
       notify: Deploy stack
-      loop: "{{ gitlab.env | dict2items }}"
+      loop: "{{ gitlab.env | dict2items }}" 
+    - name: Set GitLab root password
+      ansible.builtin.lineinfile:
+        path: "{{ compose_env_file }}"
+        regexp: '^GITLAB_ROOT_PASSWORD='
+        line: "GITLAB_ROOT_PASSWORD={{ lookup('community.general.random_string', length=12) }}"
+      when: not gitlab.env.GITLAB_ROOT_PASSWORD exists
+      notify: Deploy stack
+      run_once: true
+      no_log: true 
 
 - name: Setup cfssl container and generate certificates
   ansible.builtin.include_tasks: cfssl.yml
@@ -72,3 +72,7 @@
   tags:
     - config
     - traefik
+
+- name: Create cron jobs
+  ansible.builtin.import_tasks: tasks/cron.yml
+  when: enable_cron | default(true)
