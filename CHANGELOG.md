@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v0.2.2 (2025-06-29)
+
+### Chore
+
+* chore: linting mistakes ([`6aebdd2`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/6aebdd2aabd12d7880d676f5a3561cdb2a600c87))
+
+* chore: add vagrant config ([`a11dff5`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/a11dff5b27a96e654ffef967e1861adda0eb02f3))
+
+### Fix
+
+* fix: typo ([`48c5dc0`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/48c5dc08cf781a75eac13ddf6c8011aeee61a1a7))
+
+* fix: gitlab backups ([`29e81e8`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/29e81e8cd1d301871b5a9ca6a4c7d94cac2449ef))
+
 ## v0.2.1 (2025-06-28)
 
 ### Fix
