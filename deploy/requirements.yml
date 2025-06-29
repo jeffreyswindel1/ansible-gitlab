@@ -4,7 +4,7 @@ collections:
   - name: community.crypto
 roles:
   - name: boutetnico.cron
-    versiom: 4.0.0
+    version: 4.0.0
   - name: geerlingguy.docker
     version: 7.4.4
   - name: bodsch.htpasswd
