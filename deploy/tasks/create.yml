@@ -48,7 +48,7 @@
         regexp: '^{{ item.key }}='
         line: "{{ item.key }}={{ item.value }}"
       notify: Deploy stack
-      loop: "{{ gitlab.env | dict2items }}" 
+      loop: "{{ gitlab.env | dict2items }}"
     - name: Set GitLab root password
       ansible.builtin.lineinfile:
         path: "{{ compose_env_file }}"
@@ -57,7 +57,7 @@
       when: not gitlab.env.GITLAB_ROOT_PASSWORD exists
       notify: Deploy stack
       run_once: true
-      no_log: true 
+      no_log: true
 
 - name: Setup cfssl container and generate certificates
   ansible.builtin.include_tasks: cfssl.yml
