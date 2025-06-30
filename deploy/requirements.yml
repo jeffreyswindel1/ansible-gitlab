@@ -1,7 +1,12 @@
 ---
 collections:
+  - name: amazon.aws
+    version: 9.4.0
   - name: community.docker
   - name: community.crypto
+  - name: https://gitlab.newtada.net/jeffreyjs/ansible-collection.git
+    type: git
+    version: main
 roles:
   - name: boutetnico.cron
     version: 4.0.0

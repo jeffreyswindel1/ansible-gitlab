@@ -88,7 +88,7 @@ gitlab:
     DB_NAME: gitlab
     GITLAB_HOST: gitlab.${DOMAIN}
     GITLAB_TIMEZONE: America/Denver
-    # GITLAB_ROOT_PASSWORD: ${GITLAB_ROOT_PASSWORD}
+    # GITLAB_ROOT_PASSWORD: GitlabR00tPW
 
 htpasswd_credentials:
   - path: "{{ traefik_directory_result.path }}/usersfile"

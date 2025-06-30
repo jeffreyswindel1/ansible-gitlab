@@ -9,6 +9,6 @@
       when: ansible_os_family == "Debian"
 - name: Include main playbook
   ansible.builtin.import_playbook: >-
-    ../../playbook.yml
+    ../../playbook-config.yml
   vars:
     domain: local

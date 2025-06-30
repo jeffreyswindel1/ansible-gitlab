@@ -49,15 +49,22 @@
         line: "{{ item.key }}={{ item.value }}"
       notify: Deploy stack
       loop: "{{ gitlab.env | dict2items }}"
+
+- name: Setup GitLab Root Password
+  block:
+    - name: Check for GITLAB_ROOT_PASSWORD
+      ansible.builtin.shell: grep -c "^GITLAB_ROOT_PASSWORD=" {{ compose_env_file }}
+      register: grep_gitlab_root_password
+      tags:
+        - skip_ansible_lint
     - name: Set GitLab root password
       ansible.builtin.lineinfile:
         path: "{{ compose_env_file }}"
         regexp: '^GITLAB_ROOT_PASSWORD='
-        line: "GITLAB_ROOT_PASSWORD={{ lookup('community.general.random_string', length=12) }}"
-      when: not gitlab.env.GITLAB_ROOT_PASSWORD exists
+        line: "GITLAB_ROOT_PASSWORD={{ lookup('community.general.random_string', length=16, special=false) }}"
+      when: not gitlab.env.GITLAB_ROOT_PASSWORD is defined and grep_gitlab_root_password.stdout|int == 0
       notify: Deploy stack
-      run_once: true
-      no_log: true
+      no_log: false
 
 - name: Setup cfssl container and generate certificates
   ansible.builtin.include_tasks: cfssl.yml

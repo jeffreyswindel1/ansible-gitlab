@@ -3,6 +3,7 @@ exclude_paths:
   - roles/
 offline: true
 skip_list:
+  - fqcn[keyword]
   - no-changed-when
   - yaml[indentation]
 warn_list: []

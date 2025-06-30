@@ -1,0 +1,39 @@
+---
+# ansible-playbook playbook-instance.yml \
+#  -e "agent_environment={{ environment }}" -e "ec2_instance_action=${AGENT_ACTION}" \
+#  -t {{ create | destroy }}
+- name: EC2 Instance
+  hosts: localhost
+  become: false
+  collections:
+    - jeffreyjs.ansible
+  gather_facts: true
+  pre_tasks:
+    - name: Include variables
+      ansible.builtin.include_vars:
+        file: vars/main.yml
+      tags:
+        - create
+        - destroy
+    - name: Gather EC2 instance info
+      amazon.aws.ec2_instance_info:
+        filters:
+          "tag:Name": "{{ ec2_instance_map.name }}"
+          instance-state-name: ["running", "stopped"]
+      register: ec2_instance_info
+      tags:
+        - create
+        - destroy
+  roles: []
+  tasks:
+    - name: Manage EC2 instance
+      ansible.builtin.import_role:
+        name: jeffreyjs.ec2_instance
+      tags:
+        - create
+        - destroy
+  handlers: []
+  post_tasks: []
+  vars:
+    ansible_connection: local
+  vars_files: []
