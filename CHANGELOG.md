@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.2.3 (2025-06-30)
+
+### Fix
+
+* fix: ci and cmd vs shell ([`6cb30c2`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/6cb30c20bd62573ebb2d08209c34bac0608ccea9))
+
+* fix: root password creation ([`aabd953`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/aabd95348d0741cca8c6043cd343312ca7180ecb))
+
 ## v0.2.2 (2025-06-29)
 
 ### Chore
