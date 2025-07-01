@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.5 (2025-07-01)
+
+### Fix
+
+* fix: instance tag vars ([`631a14b`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/631a14b00c2c4d5ff4d9281a54cee7305f02ce7e))
+
 ## v0.2.4 (2025-07-01)
 
 ### Chore
