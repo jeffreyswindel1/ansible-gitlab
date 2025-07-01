@@ -1,14 +1,12 @@
 ---
 
-ansible_aws_ssm_bucket_name: single-tenant-customer-tf-state
-
 site:
   name: ansible-deploy
-  environment: dev
+  environment: single-tenant-customer
 
 ec2_instance_map:
   config: false
-  name: single-tenant-customer-gitlab-01
+  name: "{{ site.environment }}-gitlab-01"
   instance_type: t3.large
   instance_role: flow_gitlab_ec2_role
   security_group_id: sg-0a07430f243df6bbc
