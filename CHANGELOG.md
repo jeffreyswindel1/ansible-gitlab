@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.2.4 (2025-07-01)
+
+### Chore
+
+* chore: change default vars ([`6c9b079`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/6c9b07934c4f6be748c791ca91aee9b5e9dae4c1))
+
+### Fix
+
+* fix: instance tag vars ([`59ce02d`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/59ce02d87db121b865640c06ca2724c41f6cbc5f))
+
 ## v0.2.3 (2025-06-30)
 
 ### Fix
