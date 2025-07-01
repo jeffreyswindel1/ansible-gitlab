@@ -28,8 +28,9 @@ ec2_instance_map:
     AppKey: Flow
     Brand: Flow
     DeploymentType: automation
-    Exposure: Internal
-    OwningOrg: Flow
     EndpointType: Workstation
     Environment: "{{ site.environment }}"
+    Exposure: Internal
+    OwningOrg: Flow
     HostName: "{{ ec2_instance_map.name }}.{{ site.domain }}"
+    secops:cwp-sentinel-auto-install: true
