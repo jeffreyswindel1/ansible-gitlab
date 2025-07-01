@@ -3,6 +3,7 @@
 site:
   name: ansible-deploy
   environment: single-tenant-customer
+  domain: test-customer.gitprime-ops.com
 
 ec2_instance_map:
   config: false
@@ -20,3 +21,15 @@ ec2_instance_map:
         volume_size: 64
   vpc_id: vpc-0c27aa15164ba4134
   vpc_subnet_id: subnet-0d44031d6e7bf4529
+  additional_tags:
+    AdminEmail: flow.platformengineering@appfire.com
+    AppCategory: Systems
+    AppName: Flow
+    AppKey: Flow
+    Brand: Flow
+    DeploymentType: automation
+    Exposure: Internal
+    OwningOrg: Flow
+    EndpointType: Workstation
+    Environment: "{{ site.environment }}"
+    HostName: "{{ ec2_instance_map.name }}.{{ site.domain }}"
