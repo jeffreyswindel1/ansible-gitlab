@@ -8,7 +8,7 @@ site:
 ec2_instance_map:
   config: false
   name: "{{ site.environment }}-gitlab-01"
-  instance_type: t3.large
+  instance_type: t3.2xlarge
   instance_role: flow_gitlab_ec2_role
   security_group_id: sg-0a07430f243df6bbc
   image_user: ubuntu
