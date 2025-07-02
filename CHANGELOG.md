@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.6 (2025-07-02)
+
+### Fix
+
+* fix: templates letsencrypt if statements ([`b89747a`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/b89747a68489d18561e259f9e722ad43cc01dccf))
+
 ## v0.2.5 (2025-07-01)
 
 ### Fix
