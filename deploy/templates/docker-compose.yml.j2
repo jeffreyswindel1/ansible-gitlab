@@ -244,4 +244,6 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - {{ compose_directory }}/etc/cfssl:/etc/cfssl:rw
       - {{ compose_directory }}/traefik/config/traefik.yaml:/etc/traefik/traefik.yaml:ro
+{% if not traefik.use_letsencrypt %}
       - {{ compose_directory }}/traefik/config/certs-traefik.yaml:/etc/traefik/dynamic/certs-traefik.yaml:ro
+{% endif %}

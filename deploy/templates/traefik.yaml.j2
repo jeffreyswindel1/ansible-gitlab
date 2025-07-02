@@ -85,8 +85,10 @@ providers:
     exposedByDefault: false
     network: dns
     watch: true
+{% if not traefik.use_letsencrypt %}
   file:
     directory: /etc/traefik/dynamic
     watch: true
+{% endif %}
 serversTransport:
   insecureSkipVerify: true
