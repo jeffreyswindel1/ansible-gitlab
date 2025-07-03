@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.8 (2025-07-03)
+
+### Fix
+
+* fix: traefik network ([`ddc8592`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/ddc85926052efccf87620ae8f4f36e60fd3186e5))
+
 ## v0.2.7 (2025-07-03)
 
 ### Chore
