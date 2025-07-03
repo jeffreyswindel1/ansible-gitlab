@@ -138,7 +138,7 @@ services:
 {% if gitlab.enable_registry %}
       # Registry
       traefik.http.routers.gitlab-registry.rule: Host(`registry.${DOMAIN}`)'
-      traefik.http.routers.gitlab-registry.entrypoints: websecure
+      traefik.http.routers.gitlab-registry.entrypoints: web-secure
       traefik.http.routers.gitlab-registry.service: gitlab-registry-svc
       traefik.http.services.gitlab-registry-svc.loadbalancer.server.port: 80
 {% endif %}

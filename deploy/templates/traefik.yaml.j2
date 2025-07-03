@@ -83,7 +83,7 @@ providers:
 {% endraw %}
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-    network: dns
+    network: {{ docker_network.name }}
     watch: true
 {% if not traefik.use_letsencrypt %}
   file:
