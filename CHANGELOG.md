@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.2.7 (2025-07-03)
+
+### Chore
+
+* chore: set larger instance ([`b052595`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/b052595d4064aeb2afe73c9d95541077678a711c))
+
+### Fix
+
+* fix: compose template ports ([`debd875`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/debd87552785e92eead81dc749890c03bc536f6a))
+
 ## v0.2.6 (2025-07-02)
 
 ### Fix
