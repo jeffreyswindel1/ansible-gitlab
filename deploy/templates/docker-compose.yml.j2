@@ -118,11 +118,11 @@ services:
       traefik.enable: true
       traefik.http.routers.gitlab.entrypoints: web-secure
       traefik.http.routers.gitlab.tls.certresolver: resolver
-{% if gitlab.enable_localhost %} 
+{% if gitlab.enable_localhost %}
       traefik.http.routers.gitlab-localhost.rule: Host(`localhost`)
       traefik.http.routers.gitlab-localhost.entrypoints: web-secure
       traefik.http.routers.gitlab-localhost.tls.certresolver: resolver
-{% endif %} 
+{% endif %}
       traefik.http.services.gitlab.loadbalancer.server.port: 80
       # SSH
       traefik.tcp.routers.gitlab-ssh.rule: HostSNI(`*`)
@@ -233,7 +233,7 @@ services:
         target: 80
       - mode: host
         published: {{ traefik.exposed_ports.https | default('443') }}
-        protocol: udp
+        protocol: tcp
         target: 443
       - mode: host
         published: {{ traefik.exposed_ports.ssh | default(gitlab.ssh_port) }}
