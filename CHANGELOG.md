@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.9 (2025-07-03)
+
+### Fix
+
+* fix: localhost route option ([`d77b1f5`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/d77b1f535538b572a77a50fa433cb353b3f55494))
+
 ## v0.2.8 (2025-07-03)
 
 ### Fix
