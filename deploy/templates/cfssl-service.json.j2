@@ -1,6 +1,6 @@
 {
-    "CN": "{{ certificate_cn }}",
+    "CN": "{{ certificate_cn[0] }}",
     "key": {{ cfssl_ca.key | to_nice_json }},
     "names": {{ cfssl_ca.names | to_nice_json }},
-    "hosts":   "{{ certificate_cn | to_nice_json }}"
+    "hosts":   {{ certificate_cn | to_nice_json }}
 }

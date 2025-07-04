@@ -117,10 +117,13 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.gitlab.entrypoints: web-secure
+{% if traefik.use_letsencrypt %}
       traefik.http.routers.gitlab.tls.certresolver: resolver
+{% endif %} 
 {% if gitlab.enable_localhost %}
       traefik.http.routers.gitlab.rule: Host(`localhost`) || Host(`${GITLAB_HOST}`)
 {% endif %}
+      traefik.http.routers.gitlab.service: gitlab
       traefik.http.services.gitlab.loadbalancer.server.port: 80
       # SSH
       traefik.tcp.routers.gitlab-ssh.rule: HostSNI(`*`)
@@ -135,7 +138,7 @@ services:
       traefik.http.middlewares.gitlab-headers.headers.customresponseheaders.X_Forwarded-Ssl: on
 {% if gitlab.enable_registry %}
       # Registry
-      traefik.http.routers.gitlab-registry.rule: Host(`registry.${DOMAIN}`)'
+      traefik.http.routers.gitlab-registry.rule: Host(`registry.${DOMAIN}`)
       traefik.http.routers.gitlab-registry.entrypoints: web-secure
       traefik.http.routers.gitlab-registry.service: gitlab-registry-svc
       traefik.http.services.gitlab-registry-svc.loadbalancer.server.port: 80
@@ -240,7 +243,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /etc/localtime:/etc/localtime:ro
-      - {{ compose_directory }}/etc/cfssl:/etc/cfssl:rw
+      - {{ compose_directory }}/cfssl:/etc/cfssl:rw
       - {{ compose_directory }}/traefik/config/traefik.yaml:/etc/traefik/traefik.yaml:ro
 {% if not traefik.use_letsencrypt %}
       - {{ compose_directory }}/traefik/config/certs-traefik.yaml:/etc/traefik/dynamic/certs-traefik.yaml:ro
