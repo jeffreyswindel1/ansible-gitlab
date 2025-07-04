@@ -40,7 +40,7 @@
         certificate_cn:
          - "{{ service }}.{{ domain }}"
          - "{% if gitlab.enable_registry %}registry.{{ domain }}{% endif %}"
-         - "{% if service == "gitlab" and gitlab.enable_localhost %}localhost{% endif %}"
+         - "{% if service == 'gitlab' and gitlab.enable_localhost %}localhost{% endif %}"
       loop: "{{ cfssl_services }}"
       loop_control:
         loop_var: service
