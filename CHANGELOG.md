@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.12 (2025-07-04)
+
+### Fix
+
+* fix: certificate cn list ([`4f5a35d`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/4f5a35d35da000c82511bebf3cf1a5301905c9d1))
+
 ## v0.2.11 (2025-07-04)
 
 ### Fix
