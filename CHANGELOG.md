@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.11 (2025-07-04)
+
+### Fix
+
+* fix: cfssl certificates ([`14ea510`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/14ea510081141dae09a550d019f1f8bf7a571f2e))
+
 ## v0.2.10 (2025-07-04)
 
 ### Fix
