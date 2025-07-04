@@ -55,6 +55,7 @@
     - name: Check for GITLAB_ROOT_PASSWORD
       ansible.builtin.command:
         cmd: grep -c "^GITLAB_ROOT_PASSWORD=" {{ compose_env_file }}
+      ignore_errors: true
       register: grep_gitlab_root_password
       tags:
         - skip_ansible_lint

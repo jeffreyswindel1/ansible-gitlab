@@ -37,11 +37,12 @@
         owner: "{{ compose_user }}"
         group: "{{ compose_user }}"
       vars:
-        certificate_cn:
-         - "{{ service }}.{{ domain }}"
-         - "{% if gitlab.enable_registry %}registry.{{ domain }}{% endif %}"
-         - "{% if gitlab.enable_localhost %}localhost{% endif %}"
-         # - "{{ (service + '.' + domain) + [localhost] }}"
+        certificate_cn: >-
+          {{
+            (['localhost'] if gitlab.enable_localhost and service == 'gitlab' else []) +
+            ([('registry.' + domain)] if gitlab.enable_registry and service == 'gitlab' else []) +
+            [(service + '.' + domain)]
+          }}
       loop: "{{ cfssl_services }}"
       loop_control:
         loop_var: service
