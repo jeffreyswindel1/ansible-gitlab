@@ -1,8 +1,20 @@
 # CHANGELOG
 
+## v0.2.10 (2025-07-04)
+
+### Fix
+
+* fix: quoting string ([`879f467`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/879f46787774fca3027b2569c241ac9a47a7082c))
+
+### Unknown
+
+* Merge branch &#39;main&#39; of ssh://git@gitlab.newtada.net:2222/jeffreyjs/ansible-gitlab.git ([`44bf257`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/44bf2579619f4acacda05eac095f1c22c60aef1a))
+
 ## v0.2.9 (2025-07-03)
 
 ### Fix
+
+* fix: gitlab service cn ([`ed592c5`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/ed592c59a17595a4fc8d921d28bafcb9fde851ec))
 
 * fix: localhost route option ([`d77b1f5`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/d77b1f535538b572a77a50fa433cb353b3f55494))
 
