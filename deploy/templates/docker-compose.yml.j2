@@ -73,6 +73,7 @@ services:
         gitlab_rails['db_username'] = "${DB_USER}"
         gitlab_rails['db_password'] = "${DB_PASS}"
 
+        gitlab_rails['gitlab_signup_enabled'] = {{ gitlab.enable_signup | default(false) }}
         gitlab_rails['redis_host'] = "redis"
 
         gitlab_rails['trusted_proxies'] = ['traefik']
@@ -119,10 +120,8 @@ services:
       traefik.http.routers.gitlab.entrypoints: web-secure
 {% if traefik.use_letsencrypt %}
       traefik.http.routers.gitlab.tls.certresolver: resolver
-{% endif %} 
-{% if gitlab.enable_localhost %}
-      traefik.http.routers.gitlab.rule: Host(`localhost`) || Host(`${GITLAB_HOST}`)
 {% endif %}
+      traefik.http.routers.gitlab.rule: {% if gitlab.enable_localhost %}Host(`localhost`)||{% endif %}{% if gitlab.enable_registry %}Host(`registry.${DOMAIN}`)||{% endif %}Host(`${GITLAB_HOST}`)
       traefik.http.routers.gitlab.service: gitlab
       traefik.http.services.gitlab.loadbalancer.server.port: 80
       # SSH
@@ -136,13 +135,6 @@ services:
       traefik.http.middlewares.gitlab-headers.headers.customrequestheaders.X_Forwarded-Ssl: on
       traefik.http.middlewares.gitlab-headers.headers.customresponseheaders.X_FORWARDED_PROTO: https
       traefik.http.middlewares.gitlab-headers.headers.customresponseheaders.X_Forwarded-Ssl: on
-{% if gitlab.enable_registry %}
-      # Registry
-      traefik.http.routers.gitlab-registry.rule: Host(`registry.${DOMAIN}`)
-      traefik.http.routers.gitlab-registry.entrypoints: web-secure
-      traefik.http.routers.gitlab-registry.service: gitlab-registry-svc
-      traefik.http.services.gitlab-registry-svc.loadbalancer.server.port: 80
-{% endif %}
     privileged: true
     ulimits:
       nofile:
