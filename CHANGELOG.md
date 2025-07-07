@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## v0.2.13 (2025-07-07)
+
+### Fix
+
+* fix: ansible-lint ([`1b5e8f4`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/1b5e8f48de2024577664a89fe4c1cc57578bb977))
+
+* fix: port mapping and traefik routing ([`3735464`](https://gitlab.newtada.net/jeffreyjs/ansible-gitlab/-/commit/3735464322d2f0f21bd5cb417eb4f0935fcfafa4))
+
 ## v0.2.12 (2025-07-04)
 
 ### Fix

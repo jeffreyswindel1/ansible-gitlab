@@ -4,7 +4,7 @@ authors = [
 ]
 description = "Playbook to setup a GitLab instance with Docker compose."
 name = "ansible-gitlab"
-version = "0.2.12"
+version = "0.2.13"
 
 [tool.semantic_release]
 build_command = 'echo "done"'
