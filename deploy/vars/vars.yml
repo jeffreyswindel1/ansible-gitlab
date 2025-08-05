@@ -52,7 +52,7 @@ container_tags:
   - name: redis
     tag: 8.0.3-alpine
   - name: traefik
-    tag: v3.4.4
+    tag: v3.5.0
 
 cron_jobs:
   - name: Run backup every Sunday at 2am.
