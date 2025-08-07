@@ -50,7 +50,7 @@ container_tags:
   - name: postgres
     tag: 16.9-alpine
   - name: redis
-    tag: 8.0.3-alpine
+    tag: 8.2.0-alpine
   - name: traefik
     tag: v3.5.0
 
